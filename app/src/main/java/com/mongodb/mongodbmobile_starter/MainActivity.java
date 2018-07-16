@@ -6,17 +6,20 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
     //for screen paging
-    private static final int NUMBER_OF_PAGES = 3;
+   // private static final int NUMBER_OF_PAGES = 3;
+    public static BottomNavigationView bottomNav;
     private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
+    private CustomFragmentManager mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,41 +38,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position){
-                case 1:
-                    return new RemoteDataFragment();
-                case 2:
-                    return new LocalDataFragment();
-                case 0:
-                default:
-                    return new ConfigScreenFragment();
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return NUMBER_OF_PAGES;
-        }
-    }
-
     private void initializeUI() {
 
-        mPager = (ViewPager) findViewById(R.id.pager);
+        mPager = findViewById(R.id.pager);
         mPager.setOffscreenPageLimit(0);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPagerAdapter = new CustomFragmentManager(getSupportFragmentManager());
+        mPagerAdapter.addFragments(new ConfigScreenFragment());
+        mPagerAdapter.addFragments(new RemoteDataFragment());
+        mPagerAdapter.addFragments(new LocalDataFragment());
         mPager.setAdapter(mPagerAdapter);
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //if (position==1) RemoteDataFragment.RefreshData();
-                //if (position==2) LocalDataFragment.RefreshData();
+                if (position==1) RemoteDataFragment.RefreshData();
+                if (position==2) LocalDataFragment.RefreshData();
             }
 
             @Override
@@ -79,10 +61,31 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                if (state==1) RemoteDataFragment.RefreshData();
-                if (state==2) LocalDataFragment.RefreshData();
+
             }
         });
+
+        bottomNav = (BottomNavigationView) findViewById(R.id.navigation);
+
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        mPager.setCurrentItem(0);
+                        return true;
+                    case R.id.navigation_remote:
+                        mPager.setCurrentItem(1);
+                        return true;
+                    case R.id.navigation_local:
+                        mPager.setCurrentItem(2);
+                        return true;
+                }
+                return false;
+
+            }
+        });
+
     }
 
 

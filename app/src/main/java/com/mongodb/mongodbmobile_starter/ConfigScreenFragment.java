@@ -51,6 +51,9 @@ public class ConfigScreenFragment extends Fragment {
                 fetchData(dbName, collectionName, cbSync.isChecked());
             }
         });
+
+        TextView tvLabel = view.findViewById(R.id.labelStitchId);
+        tvLabel.setText(getString(R.string.stitch_app_id));
     }
 
     private void fetchData(final String dbName, final String collectionName, final Boolean syncData) {
@@ -93,6 +96,7 @@ public class ConfigScreenFragment extends Fragment {
 
                     }
 
+                    MainActivity.bottomNav.setSelectedItemId(R.id.navigation_remote);
                    /* Fragment fragment = new RemoteDataFragment();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

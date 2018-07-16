@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">MongoDb Mobile Starter</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_remote">Remote Data</string>
+    <string name="title_local">Local Data</string>
     <string name="stitch_app_id">tides-bwyuc</string>
     <!--<string name="userApiKey">PxZvbvRgTueKJf9XnVsRhekM2XaDqh5A64ZS207HdulJVN71hOWAo2WOxdBoDYDs</string>-->
     <string name="userApiKey">HB9cHm601FFMc3GJzL8irwU1GKGGTHXuQ0P3MzWMKT7fbkYxsv9fZDLbHTVPMxK5</string>
