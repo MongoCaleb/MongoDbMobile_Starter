@@ -3,109 +3,87 @@ package com.mongodb.mongodbmobile_starter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.TextView;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.model.InsertOneOptions;
-import com.mongodb.client.model.ReplaceOptions;
-import com.mongodb.client.model.UpdateOptions;
-import com.mongodb.stitch.android.core.Stitch;
-import com.mongodb.stitch.android.core.StitchAppClient;
-import com.mongodb.stitch.android.core.auth.StitchUser;
-import com.mongodb.stitch.android.services.mongodb.local.LocalMongoDbService;
-import com.mongodb.stitch.android.services.mongodb.remote.RemoteFindIterable;
-import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient;
-import com.mongodb.stitch.core.auth.providers.userapikey.UserApiKeyCredential;
-
-import org.bson.Document;
-import org.bson.conversions.Bson;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
-    private StitchAppClient _stitchClient;
-    private MongoClient _localClient;
-    private RemoteMongoClient _atlasClient;
-
+    //for screen paging
+    private static final int NUMBER_OF_PAGES = 3;
+    private ViewPager mPager;
+    private PagerAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        new StitchHandler(getApplicationContext());
+        initializeUI();
+    }
 
-        this.initializeUI();
-        this.initializeStitch();
+    @Override
+    public void onBackPressed() {
+        if (mPager.getCurrentItem() == 0) {
+            super.onBackPressed();
+        } else {
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+        }
+    }
+
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position){
+                case 1:
+                    return new RemoteDataFragment();
+                case 2:
+                    return new LocalDataFragment();
+                case 0:
+                default:
+                    return new ConfigScreenFragment();
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return NUMBER_OF_PAGES;
+        }
     }
 
     private void initializeUI() {
-        mTextMessage = (TextView) findViewById(R.id.dataView);
-        final CheckBox cbSync = findViewById(R.id.chkSync);
 
-        Button b = (Button) findViewById(R.id.fetchData);
-        b.setOnClickListener(new View.OnClickListener() {
+        mPager = (ViewPager) findViewById(R.id.pager);
+        mPager.setOffscreenPageLimit(0);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onClick(View view) {
-                String dbName = ((TextView) findViewById(R.id.dbName)).getText().toString();
-                String collectionName = ((TextView) findViewById(R.id.collectionName)).getText().toString();
-                fetchData(dbName, collectionName, cbSync.isChecked());
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                //if (position==1) RemoteDataFragment.RefreshData();
+                //if (position==2) LocalDataFragment.RefreshData();
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                if (state==1) RemoteDataFragment.RefreshData();
+                if (state==2) LocalDataFragment.RefreshData();
             }
         });
     }
 
-    private void initializeStitch() {
-        _stitchClient =
-                Stitch.initializeDefaultAppClient(this.getString(R.string.stitch_app_id));
 
-        _stitchClient.getAuth().loginWithCredential(new UserApiKeyCredential(this.getString(R.string.userApiKey)))
-                .addOnCompleteListener(new OnCompleteListener<StitchUser>() {
-                    @Override
-                    public void onComplete(@NonNull Task<StitchUser> task) {
-                        _localClient = _stitchClient.getServiceClient(LocalMongoDbService.clientFactory);
-                        _atlasClient = _stitchClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
-                    }
-                });
-    }
-
-    private void fetchData(final String dbName, final String collectionName, final Boolean syncData) {
-        RemoteFindIterable cursor = this._atlasClient.getDatabase(dbName).getCollection(collectionName).find();
-        cursor.into(new ArrayList<Document>()).addOnCompleteListener(new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull Task task) {
-                List<Document> docs = (List<Document>) task.getResult();
-                JSONObject jsonObject = new JSONObject();
-                try {
-                   // jsonObject.put(collectionName, docs.toString());
-                    ObjectMapper om = new ObjectMapper();
-                    String pretty = om.writerWithDefaultPrettyPrinter().writeValueAsString(docs);
-                    mTextMessage.setText(pretty);
-                } catch (JsonProcessingException je) {
-                    //TOAST
-                }
-
-                if (syncData) {
-                    for (Document doc: docs ) {
-                        Document query = new Document();
-                        query.put("_id", doc.get("_id"));
-
-                        _localClient.getDatabase(dbName).getCollection(collectionName)
-                                .replaceOne(query, doc, new ReplaceOptions().upsert(true));
-                    }
-                }
-            }
-        });
-    }
 }
