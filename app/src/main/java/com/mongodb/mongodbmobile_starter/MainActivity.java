@@ -10,9 +10,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.mongodb.client.MongoClient;
+import com.mongodb.client.model.InsertOneOptions;
+import com.mongodb.client.model.ReplaceOptions;
+import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.stitch.android.core.Stitch;
 import com.mongodb.stitch.android.core.StitchAppClient;
 import com.mongodb.stitch.android.core.auth.StitchUser;
@@ -22,6 +27,7 @@ import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient;
 import com.mongodb.stitch.core.auth.providers.userapikey.UserApiKeyCredential;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,25 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private MongoClient _localClient;
     private RemoteMongoClient _atlasClient;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
-                    return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
-                    return true;
-            }
-            return false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.dataView);
         final CheckBox cbSync = findViewById(R.id.chkSync);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         Button b = (Button) findViewById(R.id.fetchData);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,19 +88,22 @@ public class MainActivity extends AppCompatActivity {
                 List<Document> docs = (List<Document>) task.getResult();
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put(collectionName, docs.toString());
-                    String foo = jsonObject.toString(2);
-                    mTextMessage.setText(foo);
-                } catch (JSONException je) {
+                   // jsonObject.put(collectionName, docs.toString());
+                    ObjectMapper om = new ObjectMapper();
+                    String pretty = om.writerWithDefaultPrettyPrinter().writeValueAsString(docs);
+                    mTextMessage.setText(pretty);
+                } catch (JsonProcessingException je) {
                     //TOAST
                 }
 
                 if (syncData) {
                     for (Document doc: docs ) {
-                        _localClient.getDatabase(dbName).getCollection(collectionName)
-                                .insertOne(doc);
-                    }
+                        Document query = new Document();
+                        query.put("_id", doc.get("_id"));
 
+                        _localClient.getDatabase(dbName).getCollection(collectionName)
+                                .replaceOne(query, doc, new ReplaceOptions().upsert(true));
+                    }
                 }
             }
         });
