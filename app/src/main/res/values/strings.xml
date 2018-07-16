@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MongoDb Mobile Starter</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="stitch_app_id">tides-bwyuc</string>
+    <string name="userApiKey">PxZvbvRgTueKJf9XnVsRhekM2XaDqh5A64ZS207HdulJVN71hOWAo2WOxdBoDYDs</string>
+    <!--MyStitchAppId-->
+</resources>
