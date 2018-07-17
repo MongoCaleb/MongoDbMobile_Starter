@@ -1,5 +1,9 @@
-# MongoDbMobile_Starter
-An Android starter project for working with MongoDB Mobile &amp; Stitch.
+# MongoDb Mobile Android Starter
+An Android starter project for working with MongoDB Mobile &amp; 
+[Stitch](https://docs.mongodb.com/stitch/).
+
+![alt text][logo]
+
 
 # Requirements
 For a list of platforms supported by MongoDB Mobile, see the 
@@ -73,5 +77,10 @@ you are ready to customize the app and use your own data, follow these steps:
 2. Compile and run the project.
 
 ## Read More
+
+MongoDB Mobile also works on iOS! See https://docs.mongodb.com/stitch/mongodb/mobile/mobile-overview/
+to get started.
+
 https://docs.mongodb.com/stitch/mongodb/mobile/build-mobile/
 
+[logo]: https://pbs.twimg.com/media/DC3eZkzXkAAGPhI.jpg
