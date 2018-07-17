@@ -3,8 +3,8 @@
     <string name="title_home">Home</string>
     <string name="title_remote">Remote Data</string>
     <string name="title_local">Local Data</string>
-    <string name="stitch_app_id">MyStitchAppId</string>
-    <string name="userApiKey">see https://docs.mongodb.com/stitch/authentication/api-key/</string>
+    <string name="stitch_app_id">starterappdata-tqlwq</string>
+    <string name="userApiKey">1durnLnGrxOx9pXekkOPREAV1iXrdl7NF870nppeOIyVEB64NpQfLmwZf5VyEY2K</string> <!-- see https://docs.mongodb.com/stitch/authentication/api-key/ -->
     <string name="facebookToken">see https://docs.mongodb.com/stitch/authentication/facebook/</string>
     <string name="googleAuthCode">see https://docs.mongodb.com/stitch/authentication/google/</string>
 </resources>

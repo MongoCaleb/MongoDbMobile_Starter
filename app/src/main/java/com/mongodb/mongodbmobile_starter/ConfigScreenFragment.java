@@ -51,6 +51,7 @@ public class ConfigScreenFragment extends Fragment {
                 try {
                     fetchData(dbName, collectionName, cbSync.isChecked());
                 } catch (Exception e) {
+                    pd.dismiss();
                     Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
                 }
             }
