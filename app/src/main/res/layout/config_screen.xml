@@ -16,58 +16,64 @@
             android:id="@+id/labelStitchId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            />
+            android:text="app_id" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="20dp"/>
 
         <EditText
             android:id="@+id/dbName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:text="database name"
-            android:layout_marginTop="100dp"
-        />
+            android:hint="database name" />
 
         <EditText
             android:id="@+id/collectionName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:text="collection name"
-        />
+            android:hint="collection name" />
 
-        <Button
-            android:id="@+id/fetchData"
-            android:layout_width="wrap_content"
+        <Space
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="136dp"
-            android:text="Get Remote Data"
-     />
+            android:minHeight="20dp"/>
 
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/chkSync"
-            android:layout_width="150dp"
-            android:layout_height="30dp"
-            android:checked="true"
-            android:text="Sync data locally"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-     />
+            <Button
+                android:id="@+id/showLocalData"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:text="Load Local Data"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteY="0dp" />
 
-        <TextView
-            android:id="@+id/stitchIDLabel4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="collection name"
-    />
+            <Button
+                android:id="@+id/fetchData"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:text="Get Remote Data"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginRight="30dp"
+                 />
 
-            <TextView
-                android:id="@+id/stitchIDLabel3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="DB name"
-    />
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/chkSync"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:checked="true"
+                android:text="Sync data locally"
+                app:layout_constraintTop_toBottomOf="@id/fetchData"
+                app:layout_constraintLeft_toLeftOf="@id/fetchData"/>
 
-
+        </android.support.constraint.ConstraintLayout>
     </LinearLayout>
-
 </ScrollView>

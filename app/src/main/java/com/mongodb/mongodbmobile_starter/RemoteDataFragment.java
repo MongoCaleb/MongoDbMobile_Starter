@@ -7,10 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 public class RemoteDataFragment extends Fragment {
 
-    public static String remoteData = "no remote data";
+    public static String remoteData = "-- no remote data downloaded yet --";
     private static TextView tvData;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -18,11 +17,8 @@ public class RemoteDataFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.remote_data, container, false);
 
-
         tvData = rootView.findViewById(R.id.remoteDataView);
-
         tvData.setText(remoteData);
-
         return rootView;
     }
 

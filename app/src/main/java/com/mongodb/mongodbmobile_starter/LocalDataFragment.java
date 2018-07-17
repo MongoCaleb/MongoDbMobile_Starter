@@ -5,14 +5,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class LocalDataFragment extends Fragment {
 
-    public static String localData = "-- no local data --";
+    public static String localData = "-- no local data loaded yet --";
     private static TextView tvData;
 
     @Override
@@ -21,10 +18,8 @@ public class LocalDataFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.local_data, container, false);
 
-
         tvData = rootView.findViewById(R.id.dataView);
         tvData.setText(localData);
-
         return rootView;
     }
 

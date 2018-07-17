@@ -3,11 +3,8 @@
     <string name="title_home">Home</string>
     <string name="title_remote">Remote Data</string>
     <string name="title_local">Local Data</string>
-    <string name="stitch_app_id">tides-bwyuc</string>
-    <!--<string name="userApiKey">PxZvbvRgTueKJf9XnVsRhekM2XaDqh5A64ZS207HdulJVN71hOWAo2WOxdBoDYDs</string>-->
-    <string name="userApiKey">HB9cHm601FFMc3GJzL8irwU1GKGGTHXuQ0P3MzWMKT7fbkYxsv9fZDLbHTVPMxK5</string>
-
-
-
-    <!--MyStitchAppId-->
+    <string name="stitch_app_id">MyStitchAppId</string>
+    <string name="userApiKey">see https://docs.mongodb.com/stitch/authentication/api-key/</string>
+    <string name="facebookToken">see https://docs.mongodb.com/stitch/authentication/facebook/</string>
+    <string name="googleAuthCode">see https://docs.mongodb.com/stitch/authentication/google/</string>
 </resources>
