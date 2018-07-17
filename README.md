@@ -10,25 +10,27 @@ For a list of platforms supported by MongoDB Mobile, see the
 1. Clone or download this repo.
 2. Copy the MongoDB Mobile tarball from one of the following locations:
 
-| Platform    | Link |
-| x86_64      | https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-android-x86_64-latest.tgz |
-| arm64-v8a   | https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-android-arm64-latest.tgz  |
-| armeabi-v7a | https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-android-arm32-latest.tgz  |
+   | Platform    | Link |
+   |-------------|------|
+   | x86_64      | https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-android-x86_64-latest.tgz |
+   | arm64-v8a   | https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-android-arm64-latest.tgz  |
+   | armeabi-v7a | https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-android-arm32-latest.tgz  |
+
 
 3. Extract the tarball to /app/src/main/jniLibs/_platform_, where 
 _platform_ matches one of the 3 listed above. When finished, your 
 directory structure should look similar to this:
-```
-MongoDbMobile_Starter
-|-> app
-   |-> src
-      |-> main
-         |-> jniLibs
-               |-> cmake
-               |-> pkgconfig
-               |-> libaccumulator.so
-               |-> etc.
-```
+   ```
+   MongoDbMobile_Starter
+   |-> app
+      |-> src
+         |-> main
+            |-> jniLibs
+                  |-> cmake
+                  |-> pkgconfig
+                  |-> libaccumulator.so
+                  |-> etc.
+   ```
 
 4. Open the project in Android Studio.
 
@@ -43,10 +45,11 @@ MongoDbMobile_Starter
 
 ## Customize it!
 This app is configured to use a test account with some simple data. When 
-you are ready to use your own data, follow these steps:
+you are ready to customize the app and use your own data, follow these steps:
 
 1. Change the following values:
-   a. In `res/values/strings.xml`, replace *starterappdata-tqlwq* with your 
+   
+   a. In `res/values/strings.xml`, replace **starterappdata-tqlwq** with your 
       Stitch App Id. Don't have a Stitch app yet? Cool -- [It's free and easy 
       to get started](https://docs.mongodb.com/stitch/procedures/create-stitch-app/)!
 
