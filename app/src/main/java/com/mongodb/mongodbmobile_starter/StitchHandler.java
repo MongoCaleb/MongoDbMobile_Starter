@@ -1,15 +1,11 @@
 package com.mongodb.mongodbmobile_starter;
 
-import android.app.Activity;
+
 import android.content.Context;
-import android.os.AsyncTask;
+
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.mongodb.client.MongoClient;
 import com.mongodb.stitch.android.core.Stitch;
@@ -23,24 +19,27 @@ import com.mongodb.stitch.core.auth.providers.google.GoogleCredential;
 import com.mongodb.stitch.core.auth.providers.userapikey.UserApiKeyCredential;
 import com.mongodb.stitch.core.auth.providers.userpassword.UserPasswordCredential;
 
-import java.util.concurrent.Executor;
-
 public class StitchHandler {
 
-    public static StitchAppClient stitchClient;
+    private static StitchAppClient stitchClient;
     public static MongoClient localClient;
     public static RemoteMongoClient atlasClient;
-    private static Context context;
+    private static String apiKey;
+    private static String facebookToken;
+    private static String googleAuthKey;
+
     public interface OnAuthCompleted{
         void onSuccess();
         void onfail(Exception e);
     }
 
-    public StitchHandler(final Context c) {
+    public StitchHandler(final Context context) {
 
-        //create a Stitch client using the Stitch app ID in
-        //the strings.xml file.
-        StitchHandler.context = c;
+        apiKey = context.getString(R.string.userApiKey);
+        facebookToken = context.getString(R.string.facebookToken);
+        googleAuthKey = context.getString(R.string.googleAuthCode);
+
+        //initialize the Stitch client
         String stitchAppId = context.getString(R.string.stitch_app_id);
         StitchHandler.stitchClient = Stitch.initializeDefaultAppClient(stitchAppId);
     }
@@ -49,7 +48,7 @@ public class StitchHandler {
      * Use this method if your Stitch app is configured to allow
      * anonymous access
      */
-    public static void AuthWithAnonymous(final OnAuthCompleted listener) {
+    public void AuthWithAnonymous(final OnAuthCompleted listener) {
         StitchHandler.stitchClient.getAuth()
                 .loginWithCredential(new AnonymousCredential())
                 .addOnCompleteListener(new OnCompleteListener<StitchUser>() {
@@ -73,9 +72,9 @@ public class StitchHandler {
      * REQUIREMENT: You must store the API Key in your strings.xml file
      * or modify this method accordingly.
      */
-    public static void AuthWithApiKey(final OnAuthCompleted listener) {
+    public void AuthWithApiKey(final OnAuthCompleted listener) {
         StitchHandler.stitchClient.getAuth()
-                .loginWithCredential(new UserApiKeyCredential(context.getString(R.string.userApiKey)))
+                .loginWithCredential(new UserApiKeyCredential(apiKey))
                 .addOnCompleteListener(new OnCompleteListener<StitchUser>() {
                     @Override
                     public void onComplete(@NonNull Task<StitchUser> task) {
@@ -96,7 +95,7 @@ public class StitchHandler {
      * REQUIREMENT: You must pass the username and password, which will probably
      * come from a custom login UI.
      */
-    public static void AuthWithUserPass(String username, String password, final OnAuthCompleted listener) {
+    public void AuthWithUserPass(String username, String password, final OnAuthCompleted listener) {
         StitchHandler.stitchClient.getAuth()
                 .loginWithCredential(new UserPasswordCredential(username, password))
                 .addOnCompleteListener(new OnCompleteListener<StitchUser>() {
@@ -119,9 +118,9 @@ public class StitchHandler {
      * See https://docs.mongodb.com/stitch/authentication/facebook/
      * to learn more about configuring FB Auth.
      */
-    public static void AuthWithFacebook(final OnAuthCompleted listener) {
+    public void AuthWithFacebook(final OnAuthCompleted listener) {
         StitchHandler.stitchClient.getAuth()
-                .loginWithCredential(new FacebookCredential(context.getString(R.string.facebookToken)))
+                .loginWithCredential(new FacebookCredential(facebookToken))
                 .addOnCompleteListener(new OnCompleteListener<StitchUser>() {
                     @Override
                     public void onComplete(@NonNull Task<StitchUser> task) {
@@ -142,9 +141,9 @@ public class StitchHandler {
      * See https://docs.mongodb.com/stitch/authentication/google/
      * to learn more about configuring Google Auth.
      */
-    public static void AuthWithGoogle(final OnAuthCompleted listener) {
+    public void AuthWithGoogle(final OnAuthCompleted listener) {
         StitchHandler.stitchClient.getAuth()
-                .loginWithCredential(new GoogleCredential(context.getString(R.string.googleAuthCode)))
+                .loginWithCredential(new GoogleCredential(googleAuthKey))
                 .addOnCompleteListener(new OnCompleteListener<StitchUser>() {
                     @Override
                     public void onComplete(@NonNull Task<StitchUser> task) {

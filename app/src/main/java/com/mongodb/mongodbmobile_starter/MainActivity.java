@@ -12,7 +12,6 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
     public static BottomNavigationView bottomNav;
     private ViewPager mPager;
-    private CustomFragmentManager mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onfail(Exception e) {
+                // Auth failed. Show the exception to the user
                 showAlert(e.toString() + "\n\nPlease fix this error and restart the app.");
             }
         });
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     /// Handlers for the tabbed & swipeable UI
     private void initializeUI() {
         mPager = findViewById(R.id.pager);
-        mPagerAdapter = new CustomFragmentManager(getSupportFragmentManager());
+        CustomFragmentManager mPagerAdapter = new CustomFragmentManager(getSupportFragmentManager());
         mPagerAdapter.addFragments(new ConfigScreenFragment());
         mPagerAdapter.addFragments(new RemoteDataFragment());
         mPagerAdapter.addFragments(new LocalDataFragment());

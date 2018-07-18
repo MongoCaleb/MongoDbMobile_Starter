@@ -1,9 +1,12 @@
+![alt text][logo]
 # MongoDb Mobile Android Starter
 An Android starter project for working with MongoDB Mobile &amp; 
 [Stitch](https://docs.mongodb.com/stitch/).
 
-![alt text][logo]
-
+At MongoDB World 2018, Mongo announced the beta of [MongoDB Mobile](https://www.mongodb.com/use-cases/mobile), which 
+enables you to use Mongo on your Android and iOS devices. This starter 
+app provides a way to get up and running quickly (with zero config), and 
+then either customize it or steal the code for your own projects.
 
 # Requirements
 For a list of platforms supported by MongoDB Mobile, see the 
@@ -30,10 +33,11 @@ directory structure should look similar to this:
       |-> src
          |-> main
             |-> jniLibs
-                  |-> cmake
-                  |-> pkgconfig
-                  |-> libaccumulator.so
-                  |-> etc.
+                  |-> x86_64 (or arm64-v8a or armeabi-v7a)
+                        |-> cmake
+                        |-> pkgconfig
+                        |-> libaccumulator.so
+                        |-> etc.
    ```
 
 4. Open the project in Android Studio.
