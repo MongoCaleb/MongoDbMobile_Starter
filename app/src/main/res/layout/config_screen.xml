@@ -72,9 +72,9 @@
                 android:layout_width="150dp"
                 android:layout_height="30dp"
                 android:checked="true"
-                android:text="Sync data locally"
-                app:layout_constraintTop_toBottomOf="@id/fetchData"
-                app:layout_constraintLeft_toLeftOf="@id/fetchData"/>
+                android:text="Save data locally"
+                app:layout_constraintLeft_toLeftOf="@id/fetchData"
+                app:layout_constraintTop_toBottomOf="@id/fetchData" />
 
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
