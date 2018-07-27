@@ -24,7 +24,7 @@ For a list of platforms supported by MongoDB Mobile, see the
    | armeabi-v7a | https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-android-arm32-latest.tgz  |
 
 
-3. Extract the tarball to /app/src/main/jniLibs/_platform_, where 
+3. Extract the tarball, and then copy the contents of the */lib/* folder to /app/src/main/jniLibs/_platform_, where 
 _platform_ matches one of the 3 listed above. When finished, your 
 directory structure should look similar to this:
    ```
